@@ -59,10 +59,10 @@ export default defineConfig({
         scope: ".",
         start_url: ".",
         id: ".",
-        short_name: "Dashtar - E-Commerce Website",
-        name: "Dashtar | React eCommerce Admin Dashboard",
+        short_name: "BanglaBazar - E-Commerce Website",
+        name: "BanglaBazar | React eCommerce Admin Dashboard",
         description:
-          "Dashtar : React Grocery & Organic Food Store e-commerce Admin Dashboard",
+          "BanglaBazar : React Grocery & Organic Food Store e-commerce Admin Dashboard",
         icons: [
           {
             src: "favicon.ico",

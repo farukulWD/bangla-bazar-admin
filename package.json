@@ -1,7 +1,7 @@
 {
-  "name": "dashtar-admin",
+  "name": "bangla-bazar-admin",
   "version": "0.1.0",
-  "description": "this is dashtar-admin built with react.js and tailwindcss",
+  "description": "this is bangla-bazar-admin built with react.js and tailwindcss",
   "private": true,
   "type": "module",
   "dependencies": {
