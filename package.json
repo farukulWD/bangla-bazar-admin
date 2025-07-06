@@ -90,7 +90,7 @@
     "preview": "vite preview",
     "test": "vitest"
   },
-  "author": "HtmlLover",
+  "author": "Bangal Bazar",
   "license": "Regular",
   "devDependencies": {
     "@types/react": "^18.0.37",
