@@ -21,7 +21,7 @@ const EditProfile = lazy(() => import("@/pages/EditProfile"));
 const Languages = lazy(() => import("@/pages/Languages"));
 const Currencies = lazy(() => import("@/pages/Currencies"));
 const Setting = lazy(() => import("@/pages/Setting"));
-const StoreHome = lazy(() => import("@/pages/StoreHome"));
+const StoreCustomization = lazy(() => import("@/pages/StoreCustomization"));
 const StoreSetting = lazy(() => import("@/pages/StoreSetting"));
 const Notifications = lazy(() => import("@/pages/Notifications"));
 /*
@@ -100,7 +100,8 @@ const routes = [
   { path: "/settings", component: Setting },
   {
     path: "/store/customization",
-    component: StoreHome,
+    component: StoreCustomization,
+    exact: false,
   },
   {
     path: "/store/store-settings",

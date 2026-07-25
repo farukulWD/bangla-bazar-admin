@@ -93,8 +93,19 @@ const sidebar = [
       },
 
       {
-        path: "/store/customization",
         name: "StoreCustomization",
+        routes: [
+          { path: "/store/customization/home", name: "HomeSettings" },
+          { path: "/store/customization/single", name: "SingleSetting" },
+          { path: "/store/customization/about", name: "AboutUsSetting" },
+          { path: "/store/customization/privacy", name: "PrivacyTCSetting" },
+          { path: "/store/customization/faq", name: "FAQSetting" },
+          { path: "/store/customization/offers", name: "OffersStting" },
+          { path: "/store/customization/contact", name: "ContactUsStting" },
+          { path: "/store/customization/checkout", name: "Checkout" },
+          { path: "/store/customization/dashboard", name: "DashboardSetting" },
+          { path: "/store/customization/seo", name: "SeoSetting" },
+        ],
       },
       {
         path: "/store/store-settings",

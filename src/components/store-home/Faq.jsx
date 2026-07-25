@@ -26,6 +26,7 @@ const Faq = ({
   setFaqRightColStatus,
   faqRightColStatus,
   isSubmitting,
+  activeSection = "header",
 }) => {
   const { t } = useTranslation();
 
@@ -61,6 +62,8 @@ const Faq = ({
         <hr className="md:mb-10 mb-3" />
 
         <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full pb-0">
+          {activeSection === "header" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("FAQPageHeader")}</strong>
           </div>
@@ -114,7 +117,11 @@ const Faq = ({
               </div>
             </div>
           </div>
+          </>
+          )}
 
+          {activeSection === "left-column" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("FaqLeftCol")}</strong>
           </div>
@@ -153,7 +160,11 @@ const Faq = ({
               />
             </div>
           </div>
+          </>
+          )}
 
+          {activeSection === "right-column" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("FAQS")}</strong>
           </div>
@@ -437,6 +448,8 @@ const Faq = ({
               </div>
             </div>
           </div>
+          </>
+          )}
         </div>
       </div>
     </>

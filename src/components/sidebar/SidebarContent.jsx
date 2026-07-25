@@ -30,6 +30,12 @@ const SidebarContent = () => {
       // Filter sub-routes if they exist
       if (route.routes) {
         const validSubRoutes = route.routes.filter((subRoute) => {
+          // Nested group (no path of its own): keep if any grandchild is accessible.
+          if (subRoute.routes) {
+            return subRoute.routes.some((child) =>
+              accessList.includes(child.path.split("?")[0].split("/")[1])
+            );
+          }
           const routeKey = subRoute.path.split("?")[0].split("/")[1];
           // console.log("subRoute", routeKey);
           return accessList.includes(routeKey);
