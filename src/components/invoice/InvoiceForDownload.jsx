@@ -345,7 +345,7 @@ const InvoiceForDownload = ({
               >
                 <Image
                   src={logoDark}
-                  alt="banglabazar"
+                  alt="Bangla Bazar"
                   style={{
                     width: 90,
                     alignItems: "right",

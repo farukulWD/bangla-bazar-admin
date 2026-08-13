@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 
 //internal import
 import AdminServices from "@/services/AdminServices";

@@ -32,7 +32,6 @@ const useCouponSubmit = (id) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("coupon data", data);
     try {
       setIsSubmitting(true);
       const titleTranslates = await handlerTextTranslateHandler(

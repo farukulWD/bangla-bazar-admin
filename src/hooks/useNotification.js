@@ -16,7 +16,6 @@ const useNotification = () => {
     // Listen for the 'notification' event from the server
     socket?.on("notification", (notification) => {
       // Update data in real-time here
-      console.log("notification", notification);
       if (notification?.option === "globalSetting") {
         dispatch(removeSetting("globalSetting"));
         const globalSettingData = {

@@ -22,7 +22,6 @@ const useTranslationValue = () => {
         translation?.toLowerCase().includes("error") ||
         !translation
       ) {
-        console.log(`Removing invalid translation for language: ${lang}`);
         delete validData[lang]; // Remove invalid translations
         // validData[lang] = ""; // Clear the invalid translation value, keep the key
       }
