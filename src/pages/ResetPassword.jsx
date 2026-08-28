@@ -1,7 +1,7 @@
 import { Button, Input } from "@windmill/react-ui";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 

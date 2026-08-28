@@ -401,7 +401,6 @@ const useFilter = (data) => {
     if (file && file.type === "application/json") {
       setFileName(file?.name);
       setIsDisable(true);
-      console.log("if");
 
       fileReader.readAsText(file, "UTF-8");
       fileReader.onload = (e) => {
@@ -466,8 +465,6 @@ const useFilter = (data) => {
     } else if (file && file.type === "text/csv") {
       setFileName(file?.name);
       setIsDisable(true);
-
-      console.log("else if");
 
       fileReader.onload = async (event) => {
         const text = event.target.result;

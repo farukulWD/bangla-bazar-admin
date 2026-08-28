@@ -51,6 +51,7 @@ const AboutUs = ({
   setOurFounderSixImage,
   ourFounderSixImage,
   isSubmitting,
+  activeSection = "header",
 }) => {
   const { t } = useTranslation();
 
@@ -88,6 +89,8 @@ const AboutUs = ({
           <hr className="md:mb-12 mb-3" />
 
           <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
+            {activeSection === "header" && (
+            <>
             <div className="inline-flex md:text-base text-sm mb-3 text-gray-500 dark:text-gray-400">
               <strong>{t("PageHeader")}</strong>
             </div>
@@ -144,7 +147,11 @@ const AboutUs = ({
                 </div>
               </div>
             </div>
+            </>
+            )}
 
+            {activeSection === "top-content" && (
+            <>
             <div className="inline-flex md:text-base text-sm mb-3 mt-5 text-gray-500 dark:text-gray-400">
               <strong>{t("AboutPageTopContentLeft")}</strong>
             </div>
@@ -365,7 +372,11 @@ const AboutUs = ({
                 />
               </div>
             </div>
+            </>
+            )}
 
+            {activeSection === "middle-content" && (
+            <>
             <div className="inline-flex md:text-base text-sm mb-3 md:mt-5 text-gray-500 dark:text-gray-400 relative ">
               <strong>{t("MiddleContentSection")}</strong>
             </div>
@@ -451,7 +462,11 @@ const AboutUs = ({
                 </div>
               </div>
             </div>
+            </>
+            )}
 
+            {activeSection === "founders" && (
+            <>
             <div className="inline-flex md:text-base text-sm mb-3 md:mt-5 text-gray-500 dark:text-gray-400 ">
               <strong>{t("OurFounder")}</strong>
             </div>
@@ -843,6 +858,8 @@ const AboutUs = ({
                 </Tabs>
               </TabsComponent>
             </div>
+            </>
+            )}
           </div>
         </div>
       </div>

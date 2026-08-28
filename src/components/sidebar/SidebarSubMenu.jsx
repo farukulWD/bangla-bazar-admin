@@ -6,6 +6,7 @@ import {
   IoChevronForwardOutline,
   IoRemoveSharp,
 } from "react-icons/io5";
+import SidebarNestedMenu from "@/components/sidebar/SidebarNestedMenu";
 
 const SidebarSubMenu = ({ route }) => {
   const { t } = useTranslation();
@@ -33,7 +34,10 @@ const SidebarSubMenu = ({ route }) => {
             className="p-2  overflow-hidden text-sm font-medium text-gray-500 rounded-md dark:text-gray-400 dark:bg-gray-900"
             aria-label="submenu"
           >
-            {route.routes.map((child, i) => (
+            {route.routes.map((child, i) =>
+              child.routes ? (
+                <SidebarNestedMenu child={child} key={i + 1} />
+              ) : (
               <li key={i + 1}>
                 {child?.outside ? (
                   <a
@@ -85,7 +89,8 @@ const SidebarSubMenu = ({ route }) => {
                   </NavLink>
                 )}
               </li>
-            ))}
+              )
+            )}
           </ul>
         )}
       </li>

@@ -27,6 +27,7 @@ const PrivacyPolicy = ({
   termsConditionsTextEdit,
   setTermsConditionsTextEdit,
   isSubmitting,
+  activeSection = "privacy-policy",
 }) => {
   const { t } = useTranslation();
 
@@ -62,6 +63,7 @@ const PrivacyPolicy = ({
 
         <hr className="md:mb-10 mb-4" />
 
+        {activeSection === "privacy-policy" && (
         <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
           <div className="inline-flex md:text-base text-sm md:mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("PrivacyPolicy")}</strong>
@@ -141,9 +143,11 @@ const PrivacyPolicy = ({
             </div>
           </div>
         </div>
+        )}
 
         <hr className="md:mb-12 mb-3" />
 
+        {activeSection === "terms-conditions" && (
         <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
           <div className="inline-flex md:text-base text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("TermsConditions")}</strong>
@@ -221,6 +225,7 @@ const PrivacyPolicy = ({
             </div>
           </div>
         </div>
+        )}
       </div>
     </>
   );

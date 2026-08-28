@@ -9,7 +9,7 @@ import {
 } from "@windmill/react-ui";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 //internal import
 
 import useAsync from "@/hooks/useAsync";
@@ -53,8 +53,6 @@ const ProductDetails = () => {
       setVariantTitle(varTitle);
     }
   }, [attribue, data?.variants, loading, lang]);
-
-  console.log("product", data);
 
   return (
     <>

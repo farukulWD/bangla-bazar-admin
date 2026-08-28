@@ -30,6 +30,12 @@ const SidebarContent = () => {
       // Filter sub-routes if they exist
       if (route.routes) {
         const validSubRoutes = route.routes.filter((subRoute) => {
+          // Nested group (no path of its own): keep if any grandchild is accessible.
+          if (subRoute.routes) {
+            return subRoute.routes.some((child) =>
+              accessList.includes(child.path.split("?")[0].split("/")[1])
+            );
+          }
           const routeKey = subRoute.path.split("?")[0].split("/")[1];
           // console.log("subRoute", routeKey);
           return accessList.includes(routeKey);
@@ -51,9 +57,9 @@ const SidebarContent = () => {
     <div className="py-4 text-gray-500 dark:text-gray-400">
       <a className=" text-gray-900 dark:text-gray-200" href="/dashboard">
         {/* {mode === "dark" ? (
-          <img src={logoLight} alt="banglabazar" width="135" className="pl-6" />
+          <img src={logoLight} alt="Bangla Bazar" width="135" className="pl-6" />
         ) : (
-          <img src={logoDark} alt="banglabazar" width="135" className="pl-6" />
+          <img src={logoDark} alt="Bangla Bazar" width="135" className="pl-6" />
         )} */}
         <p className="ml-6">Dashboard</p>
       </a>

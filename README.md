@@ -218,4 +218,4 @@ src/
 
 ---
 
-**Note**: This is an updated version of BanglaBazar-admin with enhanced features and modern development practices.
+**Note**: This is an updated version of Bangla Bazar-admin with enhanced features and modern development practices.

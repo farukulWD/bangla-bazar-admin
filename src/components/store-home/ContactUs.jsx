@@ -32,6 +32,7 @@ const ContactUs = ({
   setContactFormStatus,
   contactFormStatus,
   isSubmitting,
+  activeSection = "header",
 }) => {
   const { t } = useTranslation();
 
@@ -67,6 +68,8 @@ const ContactUs = ({
         <hr className="md:mb-12 mb-3" />
 
         <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
+          {activeSection === "header" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("PageHeader")}</strong>
           </div>
@@ -123,7 +126,11 @@ const ContactUs = ({
               </div>
             </div>
           </div>
+          </>
+          )}
 
+          {activeSection === "info-boxes" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400 relative">
             <strong>{t("EmailUs")}</strong>
           </div>
@@ -335,7 +342,11 @@ const ContactUs = ({
               </div>
             </div>
           </div>
+          </>
+          )}
 
+          {activeSection === "left-column" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400">
             <strong>{t("MidLeftCol")}</strong>
           </div>
@@ -378,7 +389,11 @@ const ContactUs = ({
               </div>
             </div>
           </div>
+          </>
+          )}
 
+          {activeSection === "form" && (
+          <>
           <div className="inline-flex md:text-md text-sm mb-3 text-gray-500 dark:text-gray-400 relative">
             <strong>{t("ContactForm")}</strong>
           </div>
@@ -439,6 +454,8 @@ const ContactUs = ({
               </div>
             </div>
           </div>
+          </>
+          )}
         </div>
       </div>
     </>

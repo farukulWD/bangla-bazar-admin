@@ -59,10 +59,10 @@ export default defineConfig({
         scope: ".",
         start_url: ".",
         id: ".",
-        short_name: "BanglaBazar - E-Commerce Website",
-        name: "BanglaBazar | React eCommerce Admin Dashboard",
+        short_name: "Bangla Bazar - E-Commerce Website",
+        name: "Bangla Bazar | React eCommerce Admin Dashboard",
         description:
-          "BanglaBazar : React Grocery & Organic Food Store e-commerce Admin Dashboard",
+          "Bangla Bazar : React Grocery & Organic Food Store e-commerce Admin Dashboard",
         icons: [
           {
             src: "favicon.ico",
@@ -118,10 +118,5 @@ export default defineConfig({
       // eslint-disable-next-line no-undef
       "@": path.resolve(__dirname, "./src/"),
     },
-  },
-  test: {
-    global: true,
-    environment: "jsdom",
-    setupFiles: ["./src/setupTest.js"],
   },
 });

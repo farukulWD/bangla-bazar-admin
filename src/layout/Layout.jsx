@@ -46,7 +46,7 @@ const Layout = () => {
                   return route.component ? (
                     <Route
                       key={i}
-                      exact={true}
+                      exact={route.exact ?? true}
                       path={`${route.path}`}
                       render={(props) => <route.component {...props} />}
                     />

@@ -109,6 +109,7 @@ const HomePage = ({
   termsConditionsMenuLink,
   couponList,
   setCouponList,
+  activeSection = "header-menu",
 }) => {
   const { mode } = useContext(WindmillContext);
   const { t } = useTranslation();
@@ -140,6 +141,7 @@ const HomePage = ({
       </div>
       <div className="grid grid-cols-12 font-sans pr-4">
         {/*  ====================================================== Header ====================================================== */}
+        {activeSection === "header-menu" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" />
@@ -453,8 +455,10 @@ const HomePage = ({
 
           {/*  ================== Menu Editor ======================== */}
         </div>
+        )}
 
         {/*  ====================================================== Main Slider ====================================================== */}
+        {activeSection === "slider" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 mt-5">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" /> {t("MainSlider")}
@@ -916,8 +920,10 @@ const HomePage = ({
             </TabsComponent>
           </div>
         </div>
+        )}
 
         {/*  ======================================================Discount Coupon Code Box ====================================================== */}
+        {activeSection === "coupon" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 mt-5">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" />
@@ -1044,8 +1050,10 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Promotion Banner ===================================================== */}
+        {activeSection === "promotion" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3 md:mt-0 mt-10">
             <FiSettings className="mt-1 mr-2" /> {t("PromotionBanner")}
@@ -1143,8 +1151,10 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Featured Categories ====================================================== */}
+        {activeSection === "featured" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 md:mt-0 mt-15">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3 relative">
             <FiSettings className="mt-1 mr-2" /> {t("FeaturedCategories")}
@@ -1231,8 +1241,10 @@ const HomePage = ({
                 </div> */}
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Popular Products ====================================================== */}
+        {activeSection === "popular" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 md:mt-0 mt-15">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3 relative">
             <FiSettings className="mt-1 mr-2" />
@@ -1319,8 +1331,10 @@ const HomePage = ({
                 </div> */}
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Quick Delivery Section ====================================================== */}
+        {activeSection === "quick-delivery" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 mt-15">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" />{" "}
@@ -1445,8 +1459,10 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Latest Discounted Products ====================================================== */}
+        {activeSection === "latest-discounted" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 md:mt-0 mt-10">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" />{" "}
@@ -1533,8 +1549,10 @@ const HomePage = ({
                 </div> */}
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Get Your Daily Needs Banner Section ====================================================== */}
+        {activeSection === "daily-needs" && (
         <div
           className={`col-span-12 md:col-span-12 lg:col-span-12 ${
             window.innerWidth < 400 ? "md:my-0 my-24" : "md:my-0 my-24"
@@ -1683,8 +1701,10 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Feature Promo Section ====================================================== */}
+        {activeSection === "feature-promo" && (
         <div
           className={`col-span-12 md:col-span-12 lg:col-span-12 ${
             window.innerWidth < 400 ? "md:mt-0 mt-40" : "md:mt-0 mt-10"
@@ -1785,8 +1805,10 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
 
         {/*  ====================================================== Footer Section ====================================================== */}
+        {activeSection === "footer" && (
         <div className="col-span-12 md:col-span-12 lg:col-span-12 md:mt-0 mt-10">
           <div className="inline-flex md:text-lg text-base text-gray-800 font-semibold dark:text-gray-400 mb-3">
             <FiSettings className="mt-1 mr-2" /> {t("FooterTitle")}
@@ -2543,6 +2565,7 @@ const HomePage = ({
             </div>
           </div>
         </div>
+        )}
       </div>
     </>
   );
