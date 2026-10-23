@@ -26,10 +26,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { isActivePath, navItems } from "@/config/nav";
+import { getInitials } from "@/lib/initials";
+import { useSession } from "@/store/api/auth/hooks/use-session";
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { isMobile, setOpenMobile } = useSidebar();
+  const { user } = useSession();
 
   const closeMobile = () => {
     if (isMobile) setOpenMobile(false);
@@ -138,16 +141,16 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" tooltip="Admin">
+            <SidebarMenuButton size="lg" tooltip={user?.name}>
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-accent text-xs font-semibold text-sidebar-accent-foreground">
-                AD
+                {getInitials(user?.name)}
               </div>
               <div className="grid flex-1 text-left leading-tight">
                 <span className="truncate font-medium text-foreground">
-                  Admin
+                  {user?.name}
                 </span>
                 <span className="truncate text-xs text-muted-foreground">
-                  admin@banglabazar.com
+                  {user?.role?.name ?? user?.email ?? user?.phone}
                 </span>
               </div>
             </SidebarMenuButton>

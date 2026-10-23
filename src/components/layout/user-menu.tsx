@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, Settings, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { KeyRound, LogOut, Settings, User } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getInitials } from "@/lib/initials";
+import { useLogoutMutation } from "@/store/api/auth/api/authApi";
+import { useSession } from "@/store/api/auth/hooks/use-session";
 
 export function UserMenu() {
+  const router = useRouter();
+  const { user } = useSession();
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    await logout()
+      .unwrap()
+      .catch(() => null);
+    router.replace("/login");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -30,15 +45,19 @@ export function UserMenu() {
       >
         <Avatar>
           <AvatarFallback className="bg-accent text-xs font-semibold text-accent-foreground">
-            AD
+            {getInitials(user?.name)}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="flex flex-col">
-            <span className="text-sm font-medium text-foreground">Admin</span>
-            <span className="font-normal">admin@banglabazar.com</span>
+            <span className="truncate text-sm font-medium text-foreground">
+              {user?.name}
+            </span>
+            <span className="truncate font-normal">
+              {user?.email ?? user?.phone}
+            </span>
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -51,9 +70,17 @@ export function UserMenu() {
             <Settings />
             Settings
           </DropdownMenuItem>
+          <DropdownMenuItem render={<Link href="/settings/change-password" />}>
+            <KeyRound />
+            Change password
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
+        <DropdownMenuItem
+          variant="destructive"
+          disabled={isLoading}
+          onClick={handleLogout}
+        >
           <LogOut />
           Log out
         </DropdownMenuItem>

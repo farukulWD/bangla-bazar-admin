@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter, Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import ReduxProvider from "@/providers/redux-provider";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -38,7 +40,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <ReduxProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+            <Toaster position="top-center" />
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>
