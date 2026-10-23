@@ -25,14 +25,18 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { isActivePath, navItems } from "@/config/nav";
+import { filterNavItems, isActivePath, navItems } from "@/config/nav";
 import { getInitials } from "@/lib/initials";
+import { can } from "@/lib/permissions";
 import { useSession } from "@/store/api/auth/hooks/use-session";
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { isMobile, setOpenMobile } = useSidebar();
   const { user } = useSession();
+  const items = filterNavItems(navItems, ({ module, permission }) =>
+    can(user, module, permission)
+  );
 
   const closeMobile = () => {
     if (isMobile) setOpenMobile(false);
@@ -67,7 +71,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarMenu>
-            {navItems.map((item) => {
+            {items.map((item) => {
               if (!item.items) {
                 return (
                   <SidebarMenuItem key={item.title}>

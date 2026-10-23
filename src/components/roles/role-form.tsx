@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { AccessDenied } from "@/components/auth/access-denied";
 import Form from "@/components/form/form";
 import FormAlert from "@/components/form/form-alert";
 import TextField from "@/components/form/text-field";
@@ -64,8 +65,8 @@ type RoleFormProps = {
 
 export function RoleForm({ role }: RoleFormProps) {
   const router = useRouter();
-  const { user } = useSession();
-  const readOnly = !isSuperAdmin(user);
+  const { user, isLoading: loadingSession } = useSession();
+  const readOnly = !loadingSession && !isSuperAdmin(user);
   const isEdit = Boolean(role);
 
   const { data: catalogue, isLoading: loadingCatalogue } =
@@ -118,6 +119,12 @@ export function RoleForm({ role }: RoleFormProps) {
       setFormMessage(outcome.formMessage);
     }
   };
+
+  if (readOnly && !isEdit) {
+    return (
+      <AccessDenied message="Only a super admin can create roles and set their permissions." />
+    );
+  }
 
   const pending = creating || updating;
   const title = readOnly ? "View role" : isEdit ? "Edit role" : "New role";
