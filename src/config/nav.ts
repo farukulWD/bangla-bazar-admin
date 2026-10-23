@@ -35,7 +35,14 @@ export const navItems: NavItem[] = [
   },
   { title: "Customers", href: "/customers", icon: Users },
   { title: "Orders", href: "/orders", icon: ShoppingCart },
-  { title: "Our Staff", href: "/our-staff", icon: UserCog },
+  {
+    title: "Users & Roles",
+    icon: UserCog,
+    items: [
+      { title: "Users", href: "/users" },
+      { title: "Roles", href: "/roles" },
+    ],
+  },
   { title: "Settings", href: "/settings", icon: Settings },
   {
     title: "Online Store",
