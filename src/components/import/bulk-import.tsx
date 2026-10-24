@@ -235,7 +235,7 @@ export const readRows = async (
   return parsed.data;
 };
 
-export const download = (name: string, content: string, type: string) => {
+export const download = (name: string, content: BlobPart, type: string) => {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const anchor = document.createElement("a");
   anchor.href = url;
