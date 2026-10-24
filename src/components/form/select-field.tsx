@@ -60,7 +60,7 @@ const SelectField = <T extends FieldValues>({
           id={id}
           aria-invalid={fieldState.invalid}
           onBlur={field.onBlur}
-          className="h-10 w-full"
+          className="w-full data-[size=default]:h-10"
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

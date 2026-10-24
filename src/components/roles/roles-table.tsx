@@ -84,7 +84,7 @@ export function RolesTable() {
         }
       />
 
-      <Card className="gap-0 py-0">
+      <Card className="gap-0 overflow-clip py-0">
         <div className="border-b p-4">
           <div className="relative max-w-sm">
             <Search

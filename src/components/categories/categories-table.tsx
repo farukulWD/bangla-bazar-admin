@@ -289,7 +289,7 @@ export function CategoriesTable({ parentId }: CategoriesTableProps) {
         }
       />
 
-      <Card className="gap-0 py-0">
+      <Card className="gap-0 overflow-clip py-0">
         <div className="flex flex-col gap-2 border-b p-4 sm:flex-row">
           <div className="relative flex-1 sm:max-w-sm">
             <Search
@@ -315,7 +315,7 @@ export function CategoriesTable({ parentId }: CategoriesTableProps) {
               resetView();
             }}
           >
-            <SelectTrigger className="h-9 w-full sm:w-40">
+            <SelectTrigger className="w-full data-[size=default]:h-9 sm:w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

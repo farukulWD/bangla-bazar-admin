@@ -58,7 +58,7 @@ export function MoveCategoriesDialog({
           value={target}
           onValueChange={(value) => setTarget(value ?? ROOT_PARENT)}
         >
-          <SelectTrigger className="h-10 w-full">
+          <SelectTrigger className="w-full data-[size=default]:h-10">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

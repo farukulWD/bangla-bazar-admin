@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/table";
 import { getErrorMessage } from "@/lib/api-error";
 import { flattenTree } from "@/lib/categories";
+import { formatDate, toCouponRow } from "@/lib/coupons";
 import { can } from "@/lib/permissions";
 import { useBulkCreateAttributesMutation } from "@/store/api/attribute/api/attributeApi";
 import type { AttributePayload } from "@/store/api/attribute/types";
@@ -48,15 +49,17 @@ import type {
   CategoryNode,
   CategoryPayload,
 } from "@/store/api/category/types";
+import { useBulkCreateCouponsMutation } from "@/store/api/coupon/api/couponApi";
+import type { CouponPayload } from "@/store/api/coupon/types";
 
 const CHUNK_SIZE = 500;
 const PREVIEW_ROWS = 10;
 const OBJECT_ID = /^[a-f0-9]{24}$/i;
 
-type Kind = "category" | "attribute";
-type RawRow = Record<string, unknown>;
+type Kind = "category" | "attribute" | "coupon";
+export type RawRow = Record<string, unknown>;
 type CategoryRow = Omit<CategoryPayload, "parentId"> & { parent?: string };
-type Row = CategoryRow | AttributePayload;
+type Row = CategoryRow | AttributePayload | CouponPayload;
 type Indexed<T> = { index: number; row: T };
 
 const CONFIG = {
@@ -66,6 +69,7 @@ const CONFIG = {
     listHref: "/categories",
     permission: { module: "category", key: "can_add_category" },
     columns: ["name", "slug", "description", "parent", "status"],
+    required: "Only name is required.",
     csvExample:
       "name,slug,description,parent,status\nVegetables,,Fresh produce,,show\nLeafy greens,,,vegetables,show\n",
     jsonExample: [
@@ -80,6 +84,7 @@ const CONFIG = {
     listHref: "/attributes",
     permission: { module: "attribute", key: "can_add_attribute" },
     columns: ["name", "slug", "option", "type", "status", "values"],
+    required: "Only name and option are required.",
     csvExample:
       "name,slug,option,type,status,values\nSize,,dropdown,attribute,show,S|M|L|XL\nColour,,radio,attribute,show,Red|Green|Blue\n",
     jsonExample: [
@@ -88,17 +93,65 @@ const CONFIG = {
     ],
     help: "option is dropdown, radio or checkbox. type is attribute or extra. Separate values with | in CSV, or use an array in JSON.",
   },
+  coupon: {
+    title: "Import coupons",
+    plural: "coupons",
+    listHref: "/coupons",
+    permission: { module: "coupon", key: "can_add_coupon" },
+    columns: [
+      "title",
+      "couponCode",
+      "discountType",
+      "discountValue",
+      "maxDiscountAmount",
+      "minimumAmount",
+      "startTime",
+      "endTime",
+      "status",
+    ],
+    required: "title, couponCode, discountType, discountValue and endTime are required.",
+    csvExample:
+      "title,couponCode,discountType,discountValue,maxDiscountAmount,minimumAmount,startTime,endTime,status\nEid sale,EID10,percentage,10,200,500,2026-11-01,2026-11-30,show\nWelcome,WELCOME50,fixed,50,,300,,2026-12-31,show\n",
+    jsonExample: [
+      {
+        title: "Eid sale",
+        couponCode: "EID10",
+        discountType: "percentage",
+        discountValue: 10,
+        maxDiscountAmount: 200,
+        minimumAmount: 500,
+        startTime: "2026-11-01",
+        endTime: "2026-11-30",
+      },
+      {
+        title: "Welcome",
+        couponCode: "WELCOME50",
+        discountType: "fixed",
+        discountValue: 50,
+        endTime: "2026-12-31",
+      },
+    ],
+    help: "discountType is percentage or fixed. maxDiscountAmount only applies to percentage. Dates accept any format like 2026-11-30. status is show or hide.",
+  },
 } as const;
 
-const text = (value: unknown) =>
+const ROW_MAPPERS = {
+  category: (raw: RawRow): Row => toCategoryRow(raw),
+  attribute: (raw: RawRow): Row => toAttributeRow(raw),
+  coupon: (raw: RawRow): Row => toCouponRow(raw),
+};
+
+const rowName = (row: Row) => ("title" in row ? row.title : row.name);
+
+export const text = (value: unknown) =>
   typeof value === "string" ? value.trim() : value == null ? "" : String(value);
 
-const compact = <T extends Record<string, unknown>>(row: T): T =>
+export const compact = <T extends Record<string, unknown>>(row: T): T =>
   Object.fromEntries(
     Object.entries(row).filter(([, value]) => value !== "" && value !== undefined),
   ) as T;
 
-const findParent = (value: string, tree: CategoryNode[]) => {
+export const findParent = (value: string, tree: CategoryNode[]) => {
   const key = value.toLowerCase();
   const flat = flattenTree(tree).map(({ node }) => node);
   return (
@@ -108,7 +161,7 @@ const findParent = (value: string, tree: CategoryNode[]) => {
   );
 };
 
-const definedInFile = (value: string, rows: Row[]) => {
+const definedInFile = (value: string, rows: CategoryRow[]) => {
   const key = value.toLowerCase();
   return rows.some(
     (row) => row.name?.toLowerCase() === key || row.slug?.toLowerCase() === key,
@@ -153,16 +206,19 @@ const toAttributeRow = (raw: RawRow): AttributePayload => {
   });
 };
 
-const readRows = async (file: File, kind: Kind): Promise<RawRow[]> => {
+export const readRows = async (
+  file: File,
+  plural: string,
+): Promise<RawRow[]> => {
   const content = await file.text();
 
   if (file.name.toLowerCase().endsWith(".json")) {
     const parsed: unknown = JSON.parse(content);
     const list = Array.isArray(parsed)
       ? parsed
-      : (parsed as Record<string, unknown>)?.[CONFIG[kind].plural];
+      : (parsed as Record<string, unknown>)?.[plural];
     if (!Array.isArray(list)) {
-      throw new Error(`The JSON must be an array of ${CONFIG[kind].plural}.`);
+      throw new Error(`The JSON must be an array of ${plural}.`);
     }
     return list as RawRow[];
   }
@@ -179,7 +235,7 @@ const readRows = async (file: File, kind: Kind): Promise<RawRow[]> => {
   return parsed.data;
 };
 
-const download = (name: string, content: string, type: string) => {
+export const download = (name: string, content: string, type: string) => {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -189,6 +245,16 @@ const download = (name: string, content: string, type: string) => {
 };
 
 const summarize = (row: Row, kind: Kind, tree: CategoryNode[], rows: Row[]) => {
+  if (kind === "coupon") {
+    const coupon = row as CouponPayload;
+    return [
+      coupon.couponCode ?? "—",
+      coupon.discountType === "percentage"
+        ? `${coupon.discountValue}%`
+        : `${coupon.discountValue ?? "—"} off`,
+      coupon.endTime ? `ends ${formatDate(coupon.endTime)}` : "no end date",
+    ].join(" · ");
+  }
   if (kind === "attribute") {
     const attribute = row as AttributePayload;
     return [
@@ -201,7 +267,7 @@ const summarize = (row: Row, kind: Kind, tree: CategoryNode[], rows: Row[]) => {
   if (!parent) return "Top level";
   const existing = findParent(parent, tree);
   if (existing) return `Under ${existing.name}`;
-  if (definedInFile(parent, rows)) return `Under ${parent} (from this file)`;
+  if (definedInFile(parent, rows as CategoryRow[])) return `Under ${parent} (from this file)`;
   if (OBJECT_ID.test(parent)) return `Under ${parent}`;
   return `Parent "${parent}" not found`;
 };
@@ -222,6 +288,7 @@ export function BulkImport({ kind }: BulkImportProps) {
   );
   const [bulkCategories] = useBulkCreateCategoriesMutation();
   const [bulkAttributes] = useBulkCreateAttributesMutation();
+  const [bulkCoupons] = useBulkCreateCouponsMutation();
 
   const [fileName, setFileName] = useState<string | null>(null);
   const [rows, setRows] = useState<Row[]>([]);
@@ -237,10 +304,8 @@ export function BulkImport({ kind }: BulkImportProps) {
     setFileName(file.name);
 
     try {
-      const raw = await readRows(file, kind);
-      const mapped = raw.map((entry) =>
-        kind === "category" ? toCategoryRow(entry) : toAttributeRow(entry),
-      );
+      const raw = await readRows(file, config.plural);
+      const mapped = raw.map(ROW_MAPPERS[kind]);
       if (mapped.length === 0) throw new Error("The file has no rows.");
       setRows(mapped);
     } catch (err) {
@@ -275,7 +340,7 @@ export function BulkImport({ kind }: BulkImportProps) {
     const unknownParent = (row: CategoryRow) =>
       Boolean(row.parent) &&
       !findParent(row.parent!, current) &&
-      !definedInFile(row.parent!, rows) &&
+      !definedInFile(row.parent!, rows as CategoryRow[]) &&
       !OBJECT_ID.test(row.parent!);
     const indexed = (rows as CategoryRow[]).map((row, index) => ({ index, row }));
     let pending = indexed.filter(({ row }) => !unknownParent(row));
@@ -295,7 +360,7 @@ export function BulkImport({ kind }: BulkImportProps) {
         ({ row }) =>
           !row.parent ||
           findParent(row.parent, current) ||
-          !definedInFile(row.parent, rows),
+          !definedInFile(row.parent, rows as CategoryRow[]),
       );
 
       if (ready.length === 0) {
@@ -330,11 +395,17 @@ export function BulkImport({ kind }: BulkImportProps) {
     try {
       if (kind === "category") {
         await importCategories(total);
-      } else {
+      } else if (kind === "attribute") {
         await send(
           (rows as AttributePayload[]).map((row, index) => ({ index, row })),
           total,
           (payloads) => bulkAttributes(payloads).unwrap(),
+        );
+      } else {
+        await send(
+          (rows as CouponPayload[]).map((row, index) => ({ index, row })),
+          total,
+          (payloads) => bulkCoupons(payloads).unwrap(),
         );
       }
       total.failed.sort((a, b) => a.index - b.index);
@@ -380,9 +451,8 @@ export function BulkImport({ kind }: BulkImportProps) {
           <CardHeader>
             <CardTitle>File</CardTitle>
             <CardDescription>
-              Columns: <code>{config.columns.join(", ")}</code>. Only name is
-              required{kind === "attribute" ? " besides option" : ""}.{" "}
-              {config.help}
+              Columns: <code>{config.columns.join(", ")}</code>.{" "}
+              {config.required} {config.help}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -479,7 +549,7 @@ export function BulkImport({ kind }: BulkImportProps) {
                       {index + 1}
                     </TableCell>
                     <TableCell className="font-medium">
-                      {row.name || (
+                      {rowName(row) || (
                         <span className="text-destructive">Missing name</span>
                       )}
                     </TableCell>
