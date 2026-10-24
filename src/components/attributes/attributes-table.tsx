@@ -248,7 +248,7 @@ export function AttributesTable() {
         }
       />
 
-      <Card className="gap-0 py-0">
+      <Card className="gap-0 overflow-clip py-0">
         <div className="flex flex-col gap-2 border-b p-4 sm:flex-row sm:flex-wrap">
           <div className="relative flex-1 sm:max-w-sm">
             <Search

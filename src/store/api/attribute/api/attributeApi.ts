@@ -24,6 +24,11 @@ export const attributeApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.attribute],
     }),
 
+    getShowingAttributes: build.query<Attribute[], void>({
+      query: () => ({ url: "/attributes/showing", method: "GET" }),
+      providesTags: [tagTypes.attribute],
+    }),
+
     getAttribute: build.query<Attribute, ID>({
       query: (id) => ({ url: `/attributes/${id}`, method: "GET" }),
       providesTags: [tagTypes.attribute],
@@ -133,6 +138,7 @@ export const attributeApi = baseApi.injectEndpoints({
 
 export const {
   useGetAttributesQuery,
+  useGetShowingAttributesQuery,
   useGetAttributeQuery,
   useCreateAttributeMutation,
   useUpdateAttributeMutation,

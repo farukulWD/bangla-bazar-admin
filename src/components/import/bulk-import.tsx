@@ -54,7 +54,7 @@ const PREVIEW_ROWS = 10;
 const OBJECT_ID = /^[a-f0-9]{24}$/i;
 
 type Kind = "category" | "attribute";
-type RawRow = Record<string, unknown>;
+export type RawRow = Record<string, unknown>;
 type CategoryRow = Omit<CategoryPayload, "parentId"> & { parent?: string };
 type Row = CategoryRow | AttributePayload;
 type Indexed<T> = { index: number; row: T };
@@ -90,15 +90,15 @@ const CONFIG = {
   },
 } as const;
 
-const text = (value: unknown) =>
+export const text = (value: unknown) =>
   typeof value === "string" ? value.trim() : value == null ? "" : String(value);
 
-const compact = <T extends Record<string, unknown>>(row: T): T =>
+export const compact = <T extends Record<string, unknown>>(row: T): T =>
   Object.fromEntries(
     Object.entries(row).filter(([, value]) => value !== "" && value !== undefined),
   ) as T;
 
-const findParent = (value: string, tree: CategoryNode[]) => {
+export const findParent = (value: string, tree: CategoryNode[]) => {
   const key = value.toLowerCase();
   const flat = flattenTree(tree).map(({ node }) => node);
   return (
@@ -153,16 +153,19 @@ const toAttributeRow = (raw: RawRow): AttributePayload => {
   });
 };
 
-const readRows = async (file: File, kind: Kind): Promise<RawRow[]> => {
+export const readRows = async (
+  file: File,
+  plural: string,
+): Promise<RawRow[]> => {
   const content = await file.text();
 
   if (file.name.toLowerCase().endsWith(".json")) {
     const parsed: unknown = JSON.parse(content);
     const list = Array.isArray(parsed)
       ? parsed
-      : (parsed as Record<string, unknown>)?.[CONFIG[kind].plural];
+      : (parsed as Record<string, unknown>)?.[plural];
     if (!Array.isArray(list)) {
-      throw new Error(`The JSON must be an array of ${CONFIG[kind].plural}.`);
+      throw new Error(`The JSON must be an array of ${plural}.`);
     }
     return list as RawRow[];
   }
@@ -179,7 +182,7 @@ const readRows = async (file: File, kind: Kind): Promise<RawRow[]> => {
   return parsed.data;
 };
 
-const download = (name: string, content: string, type: string) => {
+export const download = (name: string, content: string, type: string) => {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -237,7 +240,7 @@ export function BulkImport({ kind }: BulkImportProps) {
     setFileName(file.name);
 
     try {
-      const raw = await readRows(file, kind);
+      const raw = await readRows(file, config.plural);
       const mapped = raw.map((entry) =>
         kind === "category" ? toCategoryRow(entry) : toAttributeRow(entry),
       );
