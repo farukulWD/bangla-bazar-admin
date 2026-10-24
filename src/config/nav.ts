@@ -2,6 +2,7 @@ import {
   Boxes,
   LayoutGrid,
   type LucideIcon,
+  Mail,
   Settings,
   ShoppingCart,
   Store,
@@ -69,6 +70,12 @@ export const navItems: NavItem[] = [
     href: "/orders",
     icon: ShoppingCart,
     permission: { module: "order", permission: "can_view_orders" },
+  },
+  {
+    title: "Messages",
+    href: "/contacts",
+    icon: Mail,
+    permission: { module: "contact", permission: "can_view_contacts" },
   },
   {
     title: "Users & Roles",
