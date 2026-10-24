@@ -118,7 +118,7 @@ export function ExportProductsDialog({
               disabled={running}
               onValueChange={(next) => onChange(next ?? ALL)}
             >
-              <SelectTrigger className="h-10 w-full">
+              <SelectTrigger className="w-full data-[size=default]:h-10">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

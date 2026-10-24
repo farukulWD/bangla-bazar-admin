@@ -55,7 +55,7 @@ export function SetCategoryDialog({
         </AlertDialogHeader>
 
         <Select items={categories} value={target} onValueChange={setTarget}>
-          <SelectTrigger className="h-10 w-full">
+          <SelectTrigger className="w-full data-[size=default]:h-10">
             <SelectValue placeholder="Choose a category" />
           </SelectTrigger>
           <SelectContent>

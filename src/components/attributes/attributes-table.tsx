@@ -16,6 +16,7 @@ import { toast } from "sonner";
 
 import { BulkActionBar } from "@/components/layout/bulk-action-bar";
 import { ConfirmDialog } from "@/components/layout/confirm-dialog";
+import { ALL, FilterSelect } from "@/components/layout/filter-select";
 import { PageHeader } from "@/components/layout/page-header";
 import { TablePagination } from "@/components/layout/table-pagination";
 import { Badge } from "@/components/ui/badge";
@@ -64,7 +65,6 @@ import type {
 } from "@/store/api/attribute/types";
 import { useSession } from "@/store/api/auth/hooks/use-session";
 
-const ALL = "all";
 const COLUMNS = 7;
 const PREVIEW_VALUES = 4;
 
@@ -80,33 +80,6 @@ const labelOf = (
   options: readonly { label: string; value: string }[],
   value: string,
 ) => options.find((option) => option.value === value)?.label ?? value;
-
-type FilterSelectProps = {
-  items: readonly { label: string; value: string }[];
-  value: string;
-  onChange: (value: string) => void;
-};
-
-function FilterSelect({ items, value, onChange }: FilterSelectProps) {
-  return (
-    <Select
-      items={items}
-      value={value}
-      onValueChange={(next) => onChange(next ?? ALL)}
-    >
-      <SelectTrigger className="h-9 w-full sm:w-36">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {items.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
 
 export function AttributesTable() {
   const { user: me } = useSession();

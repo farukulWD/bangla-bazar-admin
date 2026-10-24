@@ -315,7 +315,7 @@ export function CategoriesTable({ parentId }: CategoriesTableProps) {
               resetView();
             }}
           >
-            <SelectTrigger className="h-9 w-full sm:w-40">
+            <SelectTrigger className="w-full data-[size=default]:h-9 sm:w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
