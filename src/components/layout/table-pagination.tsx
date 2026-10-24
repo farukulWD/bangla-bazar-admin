@@ -38,7 +38,7 @@ export function TablePagination({
   const to = Math.min(page * limit, total);
 
   return (
-    <div className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-3 border-t bg-card/95 px-4 py-3 text-sm shadow-[0_-4px_12px_-6px_rgb(0_0_0/0.25)] backdrop-blur supports-backdrop-filter:bg-card/85">
+    <div className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-3 border-t bg-card/95 px-4 py-3 text-sm shadow-[0_-2px_6px_-4px_rgb(0_0_0/0.08)] backdrop-blur supports-backdrop-filter:bg-card/85">
       <span className="text-muted-foreground">
         Showing{" "}
         <span className="font-medium text-foreground">
