@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <AppSidebar />
           <SidebarInset>
             <SiteHeader />
-            <div className="flex flex-1 flex-col p-4 md:p-6">
+            <div className="flex flex-1 flex-col p-4 md:p-6 print:p-0">
               <PermissionGuard>{children}</PermissionGuard>
             </div>
           </SidebarInset>
