@@ -110,6 +110,11 @@ export const navItems: NavItem[] = [
         href: "/store/store-settings",
         permission: VIEW_SETTINGS,
       },
+      {
+        title: "Currencies",
+        href: "/currencies",
+        permission: { module: "currency", permission: "can_view_currencies" },
+      },
     ],
   },
 ];

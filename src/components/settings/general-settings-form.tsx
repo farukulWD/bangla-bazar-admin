@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useForm, useFormState } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -156,7 +157,10 @@ function GeneralSettingsForm({ settings }: { settings: Settings }) {
                 <CardHeader>
                   <CardTitle>Localization</CardTitle>
                   <CardDescription>
-                    Currency is managed by the base currency and cannot be edited here.
+                    Currency follows the base currency.{" "}
+                    <Link href="/currencies" className="underline underline-offset-4">
+                      Manage currencies
+                    </Link>
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
