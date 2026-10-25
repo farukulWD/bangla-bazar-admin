@@ -5,13 +5,18 @@ import { clearAuthToken, setAuthToken } from "@/store/api/token";
 import {
   isStaff,
   type AuthResult,
+  type ChangeEmailPayload,
   type ChangePasswordPayload,
+  type ChangePhonePayload,
   type IdentifierPayload,
   type LoginPayload,
+  type OtpChallenge,
   type PasswordResetChallenge,
   type ResetPasswordPayload,
   type ResetTokenResult,
   type SessionUser,
+  type UpdateMePayload,
+  type VerifyCodePayload,
   type VerifyOtpPayload,
 } from "../types";
 
@@ -91,6 +96,50 @@ export const authApi = baseApi.injectEndpoints({
         } catch {}
       },
     }),
+
+    updateMe: build.mutation<SessionUser, UpdateMePayload>({
+      query: (data) => ({ url: "/users/me", method: "PATCH", data }),
+      invalidatesTags: [tagTypes.session],
+    }),
+
+    updateMyImage: build.mutation<SessionUser, FormData>({
+      query: (data) => ({ url: "/users/me/image", method: "PATCH", data }),
+      invalidatesTags: [tagTypes.session],
+    }),
+
+    requestEmailChange: build.mutation<OtpChallenge, ChangeEmailPayload>({
+      query: (data) => ({ url: "/auth/email/change", method: "POST", data }),
+    }),
+
+    resendEmailChangeCode: build.mutation<OtpChallenge, void>({
+      query: () => ({ url: "/auth/email/change/resend", method: "POST" }),
+    }),
+
+    verifyEmailChange: build.mutation<SessionUser, VerifyCodePayload>({
+      query: (data) => ({
+        url: "/auth/email/change/verify",
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: [tagTypes.session],
+    }),
+
+    requestPhoneChange: build.mutation<OtpChallenge, ChangePhonePayload>({
+      query: (data) => ({ url: "/auth/phone/change", method: "POST", data }),
+    }),
+
+    resendPhoneChangeCode: build.mutation<OtpChallenge, void>({
+      query: () => ({ url: "/auth/phone/change/resend", method: "POST" }),
+    }),
+
+    verifyPhoneChange: build.mutation<SessionUser, VerifyCodePayload>({
+      query: (data) => ({
+        url: "/auth/phone/change/verify",
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: [tagTypes.session],
+    }),
   }),
 });
 
@@ -103,4 +152,12 @@ export const {
   useVerifyResetCodeMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
+  useUpdateMeMutation,
+  useUpdateMyImageMutation,
+  useRequestEmailChangeMutation,
+  useResendEmailChangeCodeMutation,
+  useVerifyEmailChangeMutation,
+  useRequestPhoneChangeMutation,
+  useResendPhoneChangeCodeMutation,
+  useVerifyPhoneChangeMutation,
 } = authApi;

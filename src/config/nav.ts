@@ -158,6 +158,7 @@ export function getNavTitle(pathname: string): {
   title: string;
 } {
   if (isActivePath(pathname, "/notifications")) return { title: "Notifications" };
+  if (isActivePath(pathname, "/profile")) return { title: "Profile" };
 
   for (const item of navItems) {
     if (item.items) {
