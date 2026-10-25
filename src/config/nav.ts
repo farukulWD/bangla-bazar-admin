@@ -152,6 +152,8 @@ export function getNavTitle(pathname: string): {
   group?: string;
   title: string;
 } {
+  if (isActivePath(pathname, "/notifications")) return { title: "Notifications" };
+
   for (const item of navItems) {
     if (item.items) {
       const child = item.items.find(
