@@ -3,6 +3,7 @@ import {
   LayoutGrid,
   type LucideIcon,
   Mail,
+  Star,
   Settings,
   ShoppingCart,
   Store,
@@ -79,6 +80,12 @@ export const navItems: NavItem[] = [
     href: "/contacts",
     icon: Mail,
     permission: { module: "contact", permission: "can_view_contacts" },
+  },
+  {
+    title: "Reviews",
+    href: "/reviews",
+    icon: Star,
+    permission: { module: "review", permission: "can_view_reviews" },
   },
   {
     title: "Users & Roles",

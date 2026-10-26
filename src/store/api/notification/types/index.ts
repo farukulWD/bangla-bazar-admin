@@ -6,10 +6,11 @@ export type NotificationEvent =
   | "order.cancelled"
   | "order.payment"
   | "product.low_stock"
-  | "coupon.expiring";
+  | "coupon.expiring"
+  | "review.submitted";
 
 export type NotificationSubject = {
-  kind: "order" | "product" | "coupon";
+  kind: "order" | "product" | "coupon" | "review";
   id: ID;
   code?: string;
 };

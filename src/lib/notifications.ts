@@ -4,6 +4,7 @@ import {
   CreditCard,
   PackageMinus,
   ShoppingCart,
+  Star,
   TicketPercent,
   Truck,
   type LucideIcon,
@@ -21,6 +22,7 @@ const SUBJECT_ROUTES: Record<NotificationSubject["kind"], string> = {
   order: "/orders",
   product: "/products",
   coupon: "/coupons",
+  review: "/reviews",
 };
 
 export const NOTIFICATION_ICONS: Record<NotificationEvent, LucideIcon> = {
@@ -30,10 +32,13 @@ export const NOTIFICATION_ICONS: Record<NotificationEvent, LucideIcon> = {
   "order.payment": CreditCard,
   "product.low_stock": PackageMinus,
   "coupon.expiring": TicketPercent,
+  "review.submitted": Star,
 };
 
-export const notificationHref = (notification: Notification): string =>
-  `${SUBJECT_ROUTES[notification.subject.kind]}/${notification.subject.id}`;
+export const notificationHref = ({ subject }: Notification): string =>
+  subject.kind === "review"
+    ? `${SUBJECT_ROUTES.review}?id=${subject.id}`
+    : `${SUBJECT_ROUTES[subject.kind]}/${subject.id}`;
 
 export const formatNotificationTime = (createdAt: string): string =>
   formatDistanceToNowStrict(parseISO(createdAt), { addSuffix: true });
