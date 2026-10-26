@@ -213,6 +213,16 @@ export function OrderDetail() {
                 )}
               </Row>
               {order.paidAt && <Row label="Paid">{formatDateTime(order.paidAt)}</Row>}
+              {order.paymentMethod === "sslcommerz" && (
+                <Button
+                  variant="link"
+                  className="h-auto px-0"
+                  render={<Link href={`/payments?orderId=${order._id}`} />}
+                  nativeButton={false}
+                >
+                  View payment attempts
+                </Button>
+              )}
             </CardContent>
           </Card>
 
