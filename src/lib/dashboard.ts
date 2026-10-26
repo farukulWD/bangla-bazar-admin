@@ -21,7 +21,7 @@ export const monthToDate = (today = new Date()): DashboardRange => ({
   to: iso(today),
 });
 
-export const defaultRange = () => presetRange(30);
+export const defaultRange = () => presetRange(365);
 
 export const toIsoDate = iso;
 
