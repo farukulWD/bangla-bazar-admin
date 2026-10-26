@@ -46,8 +46,23 @@ export const changePasswordSchema = z
     path: ["newPassword"],
   });
 
+export const profileSchema = z.object({
+  name: z.string().trim().min(2, "Name is required"),
+});
+
+export const changeEmailSchema = z.object({
+  email: z.email("Enter a valid email address"),
+});
+
+export const changePhoneSchema = z.object({
+  phone: z.string().trim().min(1, "Enter your mobile number"),
+});
+
 export type LoginValues = z.infer<typeof loginSchema>;
 export type OtpValues = z.infer<typeof otpSchema>;
 export type IdentifierValues = z.infer<typeof identifierSchema>;
 export type NewPasswordValues = z.infer<typeof newPasswordSchema>;
 export type ChangePasswordValues = z.infer<typeof changePasswordSchema>;
+export type ProfileValues = z.infer<typeof profileSchema>;
+export type ChangeEmailValues = z.infer<typeof changeEmailSchema>;
+export type ChangePhoneValues = z.infer<typeof changePhoneSchema>;

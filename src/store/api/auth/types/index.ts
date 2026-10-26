@@ -69,5 +69,21 @@ export type ChangePasswordPayload = {
   newPassword: string;
 };
 
+export type UpdateMePayload = {
+  name: string;
+};
+
+export type ChangeEmailPayload = {
+  email: string;
+};
+
+export type ChangePhonePayload = {
+  phone: string;
+};
+
+export type VerifyCodePayload = {
+  code: string;
+};
+
 export const isStaff = (userType: UserType): boolean =>
   userType === UserType.Admin || userType === UserType.SuperAdmin;

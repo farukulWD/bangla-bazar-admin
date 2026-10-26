@@ -2,6 +2,8 @@ import {
   Boxes,
   LayoutGrid,
   type LucideIcon,
+  Mail,
+  Star,
   Settings,
   ShoppingCart,
   Store,
@@ -27,6 +29,7 @@ export type NavItem =
 
 const VIEW_SETTINGS = { module: "settings", permission: "can_view_settings" };
 const VIEW_USERS = { module: "user", permission: "can_view_users" };
+const VIEW_ORDERS = { module: "order", permission: "can_view_orders" };
 
 export const storeUrl = process.env.NEXT_PUBLIC_STORE_DOMAIN ?? "/";
 
@@ -65,10 +68,24 @@ export const navItems: NavItem[] = [
     permission: VIEW_USERS,
   },
   {
-    title: "Orders",
-    href: "/orders",
+    title: "Sales",
     icon: ShoppingCart,
-    permission: { module: "order", permission: "can_view_orders" },
+    items: [
+      { title: "Orders", href: "/orders", permission: VIEW_ORDERS },
+      { title: "Payments", href: "/payments", permission: VIEW_ORDERS },
+    ],
+  },
+  {
+    title: "Messages",
+    href: "/contacts",
+    icon: Mail,
+    permission: { module: "contact", permission: "can_view_contacts" },
+  },
+  {
+    title: "Reviews",
+    href: "/reviews",
+    icon: Star,
+    permission: { module: "review", permission: "can_view_reviews" },
   },
   {
     title: "Users & Roles",
@@ -102,6 +119,11 @@ export const navItems: NavItem[] = [
         title: "Store Settings",
         href: "/store/store-settings",
         permission: VIEW_SETTINGS,
+      },
+      {
+        title: "Currencies",
+        href: "/currencies",
+        permission: { module: "currency", permission: "can_view_currencies" },
       },
     ],
   },
@@ -145,6 +167,9 @@ export function getNavTitle(pathname: string): {
   group?: string;
   title: string;
 } {
+  if (isActivePath(pathname, "/notifications")) return { title: "Notifications" };
+  if (isActivePath(pathname, "/profile")) return { title: "Profile" };
+
   for (const item of navItems) {
     if (item.items) {
       const child = item.items.find(

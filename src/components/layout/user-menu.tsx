@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { KeyRound, LogOut, Settings, User } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -44,6 +44,7 @@ export function UserMenu() {
         }
       >
         <Avatar>
+          {user?.image && <AvatarImage src={user.image} alt={user.name} />}
           <AvatarFallback className="bg-accent text-xs font-semibold text-accent-foreground">
             {getInitials(user?.name)}
           </AvatarFallback>
@@ -62,7 +63,7 @@ export function UserMenu() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem render={<Link href="/our-staff" />}>
+          <DropdownMenuItem render={<Link href="/profile" />}>
             <User />
             Profile
           </DropdownMenuItem>
