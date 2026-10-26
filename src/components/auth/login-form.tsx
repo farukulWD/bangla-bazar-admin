@@ -35,7 +35,7 @@ const LoginForm = ({ next }: { next: string | null }) => {
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { identifier: "", password: "" },
+    defaultValues: { identifier: "dorothy@gmail.com", password: "12345678" },
   });
 
   const onSubmit = async (values: LoginValues) => {
@@ -45,7 +45,9 @@ const LoginForm = ({ next }: { next: string | null }) => {
       const { user } = await login(values).unwrap();
 
       if (!isStaff(user.userType)) {
-        await logout().unwrap().catch(() => null);
+        await logout()
+          .unwrap()
+          .catch(() => null);
         setFormMessage("This account does not have admin access.");
         return;
       }
